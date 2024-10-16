@@ -1,8 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <odoo>
     <data>
         <record id="house_1" model="estate.property">
-            <field name="name"></field>
-            <field excepted_price="price"></field>
+            <field name="name">House 1</field>
+            <field price="excepted_price">25000</field>
         </record>
     </data>
 </odoo>
