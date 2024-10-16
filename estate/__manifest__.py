@@ -1,12 +1,20 @@
 {
     "name": "Real Estate",
-    "summary": "Test Module",
+    "author":"Serge",
     "version": "17.0.1.0",
-    "licence": "OEEL-1",
+    "category": 'Real Estate',
     "depends": ["base"],
+    'license': 'LGPL-3',
+    "installable":True,
     "application": True,
+    'summary': 'Manage real estate properties',
+    "description": """
+        A module for managing real estate properties.
+    """,
     "data": [
-        "security/res_groups.xml"
+        # SECURITY
+        "security/res_groups.xml",
+        "security/ir.model.access.csv"
     ],
     "demo":[
         "demo/demo.xml"
