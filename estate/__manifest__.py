@@ -5,5 +5,10 @@
     "licence": "OEEL-1",
     "depends": ["base"],
     "application": True,
-    "data": [],
+    "data": [
+        "security/res_groups.xml"
+    ],
+    "demo":[
+        "demo/demo.xml"
+    ],
 }
