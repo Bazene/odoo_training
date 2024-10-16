@@ -23,3 +23,4 @@ class RealEstate(models.Model):
     garden_orientation = fields.Selection([
         ("north","North"), ("south", "South"), ("east", "East"), ("west", "West"),
     ])
+    
