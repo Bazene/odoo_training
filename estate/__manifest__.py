@@ -15,7 +15,10 @@
         # SECURITY
         "security/res_groups.xml",
         "security/ir.model.access.csv",
+
+        # VIEWS
         "views/estate_property_views.xml",
+        "views/estate_menu.xml",
     ],
     "demo":[
         "demo/demo.xml"
