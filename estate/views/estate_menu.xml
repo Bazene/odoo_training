@@ -1,7 +1,7 @@
 <odoo>
-    <menuitem id="root_level" name="Test Root">
+    <menuitem id="root_level" name="Real Estate">
         <menuitem id="second_level" name="Estate">
-            <menuitem id="third_level" name="Third" action="test_record" />
+            <menuitem id="third_level" name="Properties" action="test_record" />
         </menuitem>
     </menuitem>
 </odoo>

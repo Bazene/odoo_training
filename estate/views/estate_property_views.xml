@@ -1,4 +1,70 @@
 <odoo>
+    <!-- Search view -->
+    <record id = "estate_property_search_view" model = "ir.ui.view">
+        <field name = "name">estate.property.view.search</field>
+        <field name = "model">estate.property</field>
+        <field name = "arch" type = "xml">
+            <search>
+                <field name = "facades" />
+                <field name = "name" />
+                <field name = "postcode" />
+                <field name = "excepted_price" />
+                <field name = "bedrooms" />
+                <field name = "living_area" />   
+                <filter name = "filter_state_name" string = "New or Offer Received" domain="['|', ('state', '=', 'new'), ('state', '=', 'received')]" /> 
+                <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}" />
+            </search>
+        </field>    
+    </record>
+
+    <!-- Form view -->
+    <record id = "estate_property_form_view" model = "ir.ui.view">
+        <field name = "name">estate.property.view.name</field>
+        <field name = "model">estate.property</field>
+        <field name = "arch" type = "xml">
+            <form>
+                <header>
+                    <field name = "state" widget = "statusbar"></field>
+                </header>
+
+                <sheet>
+                    <group>
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Enter name here"/>
+                        </h1>
+                    </group>
+
+                    <group colspan="2">
+                        <group>
+                            <field name = "postcode"/>
+                            <field name = "date_availability"/>
+                        </group>
+
+                        <group>
+                            <field name = "excepted_price"/>
+                            <field name = "selling_price"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string = "Description">
+                            <group>
+                                <field name = "description"/>
+                                <field name = "bedrooms"/>
+                                <field name = "living_area"/>
+                                <field name = "garage"/>
+                                <field name = "garden"/>
+                                <field name = "garden_area"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>    
+    </record>
+
+    <!-- List view -->
     <record id = "estate_property_tree_view" model = "ir.ui.view">
         <field name = "name">estate.property.view.tree</field>
         <field name = "model">estate.property</field>
@@ -15,9 +81,11 @@
         </field>    
     </record>
 
+    <!-- Actions -->
     <record id = "test_record" model = "ir.actions.act_window">
-        <field name = "name">Test</field>
+        <field name = "name">Properties</field>
         <field name = "res_model">estate.property</field>
-        <field name = "view_mode">tree,form</field>
+        <field name = "view_mode">tree,form,kanban</field>
+        <field name = "context">{'search_default_filter_state_name': 1}</field>
     </record>
 </odoo>
