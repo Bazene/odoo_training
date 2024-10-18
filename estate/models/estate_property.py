@@ -27,7 +27,7 @@ class RealEstate(models.Model):
     garden_orientation = fields.Selection([
         ("north", "North"), ("south", "South"), ("east", "East"), ("west", "West"),
     ])
-    activate = fields.Boolean(default = True)
+    active = fields.Boolean(default = True)
     state = fields.Selection(
         [
             ("new", "New"), 
