@@ -4,7 +4,7 @@
     <data>
         <record id="house_1" model="estate.property">
             <field name="name">House 1</field>
-            <field price="excepted_price">25000</field>
+            <field name="excepted_price">25000</field>
         </record>
     </data>
 </odoo>
