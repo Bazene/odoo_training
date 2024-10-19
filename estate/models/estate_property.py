@@ -5,7 +5,7 @@ class RealEstate(models.Model):
     # Model name and description
     _name = "estate.property"
     _description =  """
-                        Estate model
+                        Estate property model
                     """
     # Fields
     name = fields.Char(required=True)
@@ -40,4 +40,5 @@ class RealEstate(models.Model):
         copy = False, 
         default = "new",
     )
+    property_type_id = fields.Many2one(comodel_name = "estate.property.type")
     

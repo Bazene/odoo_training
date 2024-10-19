@@ -37,6 +37,7 @@
 
                     <group colspan="2">
                         <group>
+                            <field name = "property_type_id"/>
                             <field name = "postcode"/>
                             <field name = "date_availability"/>
                         </group>
@@ -81,7 +82,7 @@
         </field>    
     </record>
 
-    <!-- Actions -->
+    <!-- Action for property type -->
     <record id = "test_record" model = "ir.actions.act_window">
         <field name = "name">Properties</field>
         <field name = "res_model">estate.property</field>

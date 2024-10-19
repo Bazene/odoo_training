@@ -1,7 +1,10 @@
 <odoo>
-    <menuitem id="root_level" name="Real Estate">
-        <menuitem id="second_level" name="Estate">
-            <menuitem id="third_level" name="Properties" action="test_record" />
+    <menuitem id = "root_level" name = "Real Estate">
+        <menuitem id = "estate_item" name = "Estate">
+            <menuitem id = "properties_item" name = "Properties" action = "test_record" />
         </menuitem>
-    </menuitem>
+    </menuitem>  
+
+    <menuitem id="settings_item" name="Settings" parent = "root_level"/>
+    <menuitem id="s_properties_item" name="Properties" parent="settings_item" action="action_type"/>
 </odoo>
