@@ -5,6 +5,7 @@
         </menuitem>
     </menuitem>  
 
-    <menuitem id="settings_item" name="Settings" parent = "root_level"/>
-    <menuitem id="s_properties_item" name="Properties" parent="settings_item" action="action_type"/>
+    <menuitem id = "settings_item" name = "Settings" parent = "root_level"/>
+    <menuitem id = "s_properties_item" name = "Property Type" parent = "settings_item" action = "action_type"/>
+    <menuitem id = "s_properties_tag" name = "Property Tags" parent = "settings_item" action = "tag_record"/>
 </odoo>

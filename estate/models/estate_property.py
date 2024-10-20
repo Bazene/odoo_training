@@ -44,3 +44,10 @@ class RealEstate(models.Model):
     buyer_id = fields.Many2one("res.partner", string = "Buyer", copy = False)
     salesperson_id = fields.Many2one('res.users', string = "Salesperson", default = lambda self: self.env.user)
     offer_ids = fields.One2many("estate.property.offer", "property_id", string = "Offers")
+    tag_ids = fields.Many2many(
+        'estate.property.tag',  # The related model (assuming this is your tag model)
+        'estate_property_tag_rel',  # Explicitly define the name of the relation table
+        'property_id',  # The column in the relation table referring to this model
+        'tag_id',  # The column in the relation table referring to the tag model
+        string='Tags'
+    )
