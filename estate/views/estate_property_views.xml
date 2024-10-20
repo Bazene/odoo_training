@@ -5,14 +5,15 @@
         <field name = "model">estate.property</field>
         <field name = "arch" type = "xml">
             <search>
-                <field name = "facades" />
-                <field name = "name" />
-                <field name = "postcode" />
-                <field name = "excepted_price" />
-                <field name = "bedrooms" />
-                <field name = "living_area" />   
-                <filter name = "filter_state_name" string = "New or Offer Received" domain="['|', ('state', '=', 'new'), ('state', '=', 'received')]" /> 
-                <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}" />
+                <field name = "property_type_id"/>
+                <field name = "facades"/>
+                <field name = "name"/>
+                <field name = "postcode"/>
+                <field name = "excepted_price"/>
+                <field name = "bedrooms"/>
+                <field name = "living_area"/>   
+                <filter name = "filter_state_name" string = "New or Offer Received" domain="['|', ('state', '=', 'new'), ('state', '=', 'received')]"/> 
+                <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}"/>
             </search>
         </field>    
     </record>
@@ -83,6 +84,7 @@
         <field name = "arch" type = "xml">
             <tree>
                 <field name = "name"/>
+                <field name = "property_type_id"/>
                 <field name = "postcode"/>
                 <field name = "bedrooms"/>
                 <field name = "living_area"/>

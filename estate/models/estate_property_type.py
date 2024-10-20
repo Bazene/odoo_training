@@ -6,4 +6,4 @@ class PropertyType(models.Model):
                         Estate property type Model
                     """
     # Fields
-    name = fields.Char(required = True)
+    name = fields.Char(string = "Property Type", required = True)

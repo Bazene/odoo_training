@@ -17,3 +17,4 @@ class PropertyOffer(models.Model):
     )
     partner_id = fields.Many2one("res.partner", required = True, string = "Partner")
     property_id = fields.Many2one("estate.property", required = True, string = "Property")
+    

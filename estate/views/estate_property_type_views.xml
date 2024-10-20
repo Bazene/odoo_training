@@ -1,5 +1,41 @@
 <odoo>
-    <!-- Action for property type -->
+    <!-- Search view -->
+    <!-- <record id = "estate_property_type_search" model = "ir.ui.view">
+        <field name = "name">estate.property.type.search</field>
+        <field name = "model">estate.property.type</field>
+        <field name = "arch" type = "xml">
+            <search>
+                <field name = "name"/>
+                <filter name = "group_by_property_type" string = "Property Type" context = "{'group_by':'name'}"/>
+            </search>
+        </field>
+    </record> -->
+
+    <!-- Form view -->
+    <!-- <record id = "estate_property_type_form_view" model = "ir.ui.view">
+        <field name = "name">estate.property.type.form</field>
+        <field name = "model">estate.property.type</field>
+        <field name = "arch" type = "xml">
+            <form>
+                <sheet>
+                    <field name = "name"/>
+                </sheet>
+            </form>
+        </field>
+    </record> -->
+
+    <!-- List view -->
+    <!-- <record id = "estate_property_type_tree_view" model = "ir.ui.view">
+        <field name = "name">estate.property.type.tree</field>
+        <field name = "model">estate.property.type</field>
+        <field name = "arch" type = "xml">
+            <tree>
+                <field name = "name" string = "Property Type"/>
+            </tree>
+        </field>
+    </record> -->
+
+    <!-- Action -->
     <record id = "action_type" model = "ir.actions.act_window">
         <field name = "name">Properties</field>
         <field name = "res_model">estate.property</field>
