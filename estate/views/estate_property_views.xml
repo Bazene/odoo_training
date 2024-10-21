@@ -5,14 +5,15 @@
         <field name = "model">estate.property</field>
         <field name = "arch" type = "xml">
             <search>
-                <field name = "facades" />
-                <field name = "name" />
-                <field name = "postcode" />
-                <field name = "excepted_price" />
-                <field name = "bedrooms" />
-                <field name = "living_area" />   
-                <filter name = "filter_state_name" string = "New or Offer Received" domain="['|', ('state', '=', 'new'), ('state', '=', 'received')]" /> 
-                <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}" />
+                <field name = "property_type_id"/>
+                <field name = "facades"/>
+                <field name = "name"/>
+                <field name = "postcode"/>
+                <field name = "excepted_price"/>
+                <field name = "bedrooms"/>
+                <field name = "living_area"/>   
+                <filter name = "filter_state_name" string = "New or Offer Received" domain="['|', ('state', '=', 'new'), ('state', '=', 'received')]"/> 
+                <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}"/>
             </search>
         </field>    
     </record>
@@ -31,12 +32,14 @@
                     <group>
                         <label for="name"/>
                         <h1>
-                            <field name="name" placeholder="Enter name here"/>
+                            <field name = "name" placeholder = "Enter name here"/>
                         </h1>
+                        <field name = "tag_ids" widget = "many2many_tags"/>
                     </group>
 
                     <group colspan="2">
                         <group>
+                            <field name = "property_type_id"/>
                             <field name = "postcode"/>
                             <field name = "date_availability"/>
                         </group>
@@ -58,6 +61,17 @@
                                 <field name = "garden_area"/>
                             </group>
                         </page>
+
+                        <page string = "Offers">
+                            <field name = "offer_ids"/>
+                        </page>
+
+                        <page string = "Other Info">
+                            <group>
+                                <field name = "buyer_id"/>
+                                <field name = "salesperson_id"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -71,6 +85,8 @@
         <field name = "arch" type = "xml">
             <tree>
                 <field name = "name"/>
+                <field name = "property_type_id"/>
+                <field name = "tag_ids" widget = "many2many_tags"/>
                 <field name = "postcode"/>
                 <field name = "bedrooms"/>
                 <field name = "living_area"/>
@@ -81,7 +97,7 @@
         </field>    
     </record>
 
-    <!-- Actions -->
+    <!-- Action for property type -->
     <record id = "test_record" model = "ir.actions.act_window">
         <field name = "name">Properties</field>
         <field name = "res_model">estate.property</field>
