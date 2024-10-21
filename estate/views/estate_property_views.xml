@@ -47,7 +47,7 @@
                         <group>
                             <field name = "excepted_price"/>
                             <field name = "selling_price"/>
-                            <field name = "total_area"/>
+                            <field name = "best_price"/>
                         </group>
                     </group>
 
@@ -56,6 +56,7 @@
                             <group>
                                 <field name = "description"/>
                                 <field name = "bedrooms"/>
+                                <filed name = "total_area"/>
                                 <field name = "living_area"/>
                                 <field name = "garage"/>
                                 <field name = "garden"/>
