@@ -56,11 +56,12 @@
                             <group>
                                 <field name = "description"/>
                                 <field name = "bedrooms"/>
-                                <filed name = "total_area"/>
                                 <field name = "living_area"/>
                                 <field name = "garage"/>
                                 <field name = "garden"/>
                                 <field name = "garden_area"/>
+                                <field name = "garden_orientation"/>
+                                <field name = "total_area"/>
                             </group>
                         </page>
 

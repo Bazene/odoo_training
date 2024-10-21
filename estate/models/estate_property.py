@@ -18,7 +18,7 @@ class RealEstate(models.Model):
     date_availability = fields.Date(copy = False, default = _default_date)
     excepted_price = fields.Float(required = True)
     selling_price = fields.Float(readonly = True, copy = False)
-    bedrooms = fields.Float(default = 2)
+    bedrooms = fields.Integer(default = 2)
     living_area = fields.Integer()
     facades = fields.Integer()
     garage = fields.Boolean()
@@ -45,13 +45,10 @@ class RealEstate(models.Model):
     salesperson_id = fields.Many2one('res.users', string = "Salesperson", default = lambda self: self.env.user)
     offer_ids = fields.One2many("estate.property.offer", "property_id", string = "Offers")
     tag_ids = fields.Many2many(
-        'estate.property.tag',  # The related model (assuming this is your tag model)
-        # 'estate_property_tag_rel',  # Explicitly define the name of the relation table
-        # 'property_id',  # The column in the relation table referring to this model
-        # 'tag_id',  # The column in the relation table referring to the tag model
+        'estate.property.tag',
         string = 'Tags'
     )
-    total_area = fields.Float(compute = "_compute_total_area")
+    total_area = fields.Integer(compute = "_compute_total_area")
     best_price = fields.Float(compute = "_compute_best_price")
 
     @api.depends("offer_ids.price")
@@ -62,4 +59,4 @@ class RealEstate(models.Model):
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for property in self:
-            property.total_area = property.living_area + property.garden_area
+            property.total_area = property.living_area + property.garden_area if property.living_area and property.garden_area else 0
