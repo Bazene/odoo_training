@@ -51,9 +51,9 @@ class RealEstate(models.Model):
         'tag_id',  # The column in the relation table referring to the tag model
         string='Tags'
     )
-    total_area = fields.Float(compute = "_compute_total")
+    total_area = fields.Float(compute = "_compute_total_area")
 
     @api.depends("living_area", "garden_area")
-    def _compute_total(self):
+    def _compute_total_area(self):
         for rec in self:
             rec.total_area = rec.living_area + rec.garden_area
