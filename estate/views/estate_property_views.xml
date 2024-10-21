@@ -47,6 +47,7 @@
                         <group>
                             <field name = "excepted_price"/>
                             <field name = "selling_price"/>
+                            <field name = "total_area"/>
                         </group>
                     </group>
 

@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 from dateutil.relativedelta import relativedelta
 
 class RealEstate(models.Model):
@@ -51,3 +51,9 @@ class RealEstate(models.Model):
         'tag_id',  # The column in the relation table referring to the tag model
         string='Tags'
     )
+    total_area = fields.Float(compute = "_compute_total")
+
+    @api.depends("living_area", "garden_area")
+    def _compute_total(self):
+        for rec in self:
+            rec.total_area = rec.living_area + rec.garden_area
