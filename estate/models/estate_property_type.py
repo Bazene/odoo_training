@@ -7,6 +7,7 @@ class PropertyType(models.Model):
                     """
     # Fields
     name = fields.Char(string = "Property Type", required = True)
+    property_ids = fields.One2many("estate.property", "property_type_id", string = "Property")
 
      # SQL Constraints
     _sql_constraints = [
