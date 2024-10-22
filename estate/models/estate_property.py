@@ -70,3 +70,15 @@ class RealEstate(models.Model):
             else :
                 property.garden_area = 0
                 property.garden_orientation = False
+
+    @api.onchange("date_availability")
+    def _onchange_date_availability(self):  
+        for property in self:
+            if (property.date_availability - fields.Date.today()).days < 0 :
+                return {
+                        "warning": {
+                            "title": ("Warning"),
+                            "message": ("The availability date is set to a date prior to today.")
+                        }
+                    }
+            
