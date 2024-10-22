@@ -25,8 +25,8 @@
         <field name = "arch" type = "xml">
             <form>
                 <header>
-                    <button string = "Sold" type = "object" name = "action_sold"/>
-                    <button string = "Cancel" type = "object" name = "action_cancel"/>
+                    <button string = "Sold" type = "object" name = "action_sold" invisible = "state == 'sold'"/>
+                    <button string = "Cancel" type = "object" name = "action_cancel" invisible = "state == 'canceled'"/>
                     <field name = "state" widget = "statusbar" statusbar_visible = "new,received,accepted,sold,canceled"></field>
                 </header>
 
@@ -66,11 +66,8 @@
                                 <field name = "living_area"/>
                                 <field name = "garage"/>
                                 <field name = "garden"/>
-                                <field name = "garden_area"/>
-                                <field 
-                                    name = "garden_orientation"
-                                    widget = "radio"
-                                />
+                                <field name = "garden_area" invisible = "garden == 'false'"/>
+                                <field name = "garden_orientation" widget = "radio" invisible = "garden == 'false'"/>
                                 <field name = "total_area"/>
                             </group>
                         </page>
