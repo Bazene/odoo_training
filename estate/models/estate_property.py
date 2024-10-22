@@ -1,6 +1,6 @@
 from odoo import api, fields, models
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 class RealEstate(models.Model):
     # Model name and description
@@ -90,6 +90,13 @@ class RealEstate(models.Model):
                     }
                 }
             
+    # Python constraints
+    @api.constrains("selling_price", "excepted_price") # this allow triggered the constraint every time selling price or the expected price is changed
+    def _check_constraints(self):
+        for property in self:
+            if property.selling_price < 0.9* property.excepted_price:
+                raise ValidationError(("The selling price cannot be lower than 90 percent of the expected_price"))
+                
     # Public methods
     # methods for sold and canceled property buttons
     def action_sold(self):
