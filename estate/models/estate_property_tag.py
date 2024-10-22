@@ -11,6 +11,7 @@ class EstateProperyTag(models.Model):
         'estate.property',
         string = "Property"
     )
+    color = fields.Integer()
 
     # SQL Constraints
     _sql_constraints = [
