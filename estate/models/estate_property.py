@@ -60,3 +60,13 @@ class RealEstate(models.Model):
     def _compute_total_area(self):
         for property in self:
             property.total_area = property.living_area + property.garden_area if property.living_area and property.garden_area else 0
+
+    @api.onchange("garden")
+    def _onchange_garden(self):
+        for property in self:
+            if property.garden :
+                property.garden_area = property.garden * 2
+                property.garden_orientation = "north"
+            else :
+                property.garden_area = 0
+                property.garden_orientation = False
