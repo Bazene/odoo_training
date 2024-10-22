@@ -5,6 +5,8 @@ class EstateProperyTag(models.Model):
     _description = """
                         Estate property tag Model
                     """
+    _order = "name"
+    
     # Fields
     name = fields.Char(string = "Tag", required = True)
     property_ids = fields.Many2many(
@@ -12,7 +14,6 @@ class EstateProperyTag(models.Model):
         string = "Property"
     )
     color = fields.Integer()
-    _order = "name"
 
     # SQL Constraints
     _sql_constraints = [
