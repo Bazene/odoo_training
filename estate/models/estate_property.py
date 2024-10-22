@@ -52,6 +52,12 @@ class RealEstate(models.Model):
     total_area = fields.Integer(compute = "_compute_total_area")
     best_price = fields.Float(compute = "_compute_best_price")
 
+    # SQL Constraints
+    _sql_constraints = [
+        ("check_excepted_price", "CHECK(excepted_price > 0)", "A property expected price must be strictly positive."),
+        ("check_selling_price", "CHECK(excepted_price >= 0)", "A property selling price must be positive."),
+    ]
+
     # Private methods
     @api.depends("offer_ids.price")
     def _compute_best_price(self):
