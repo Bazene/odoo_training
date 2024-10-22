@@ -7,6 +7,8 @@ class PropertyOffer(models.Model):
     _description = """
                     Offers made for real estates
                 """
+    _order = "price desc"
+
     # Fields
     price = fields.Float()
     status = fields.Selection(

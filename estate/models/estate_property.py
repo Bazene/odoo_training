@@ -8,6 +8,8 @@ class RealEstate(models.Model):
     _description =  """
                         Estate property model
                     """
+    _order = "buyer_id,property_type_id,salesperson_id desc"
+
     # Fields
     name = fields.Char(required=True)
     description = fields.Text() 
