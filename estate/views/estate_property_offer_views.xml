@@ -27,6 +27,8 @@
                 <field name = "property_id"/>
                 <field name = "partner_id"/>
                 <field name = "price"/>
+                <button string = '✔ Accept' type = "object"  name = "action_accept"/>
+                <button string = '✖ Refused' type = "object"  name = "action_Refused"/>
                 <field name = "status"/>
                 <field name = "property_type_id"/>
                 <field name = "validity"/>

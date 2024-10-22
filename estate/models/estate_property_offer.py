@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 from datetime import timedelta
+from odoo.exceptions import UserError
 
 class PropertyOffer(models.Model):
     _name = "estate.property.offer"
@@ -22,6 +23,7 @@ class PropertyOffer(models.Model):
     validity = fields.Integer(default = 7)
     date_deadline = fields.Date(compute = "_compute_date_deadline", inverse = "_inverse_date_deadline")
 
+    # Private methods
     @api.depends('validity', 'create_date')
     def _compute_date_deadline(self):
         for property in self:
@@ -34,3 +36,20 @@ class PropertyOffer(models.Model):
         for property in self:
             if property.create_date and property.date_deadline:
                 property.validity = (property.date_deadline - property.create_date.date()).days
+    
+    # Public methods
+    # methods for accepted and refuse offers buttons
+    def action_accept(self):  
+        self.ensure_one()  # Ensure the recordset contains only one record
+        if "accepted" in self.property_id.offer_ids.mapped('status'):
+            raise UserError("This property has already an offer")
+        
+        self.status = "accepted"
+        self.property_id.selling_price = self.price
+        self.property_id.buyer_id = self.partner_id
+    
+    def action_Refused(self):
+        self.ensure_one()
+        if self.property_id.selling_price == self.price :
+            self.property_id.selling_price = 0.00
+        self.status = "refused"

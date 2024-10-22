@@ -16,7 +16,7 @@
                 <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}"/>
             </search>
         </field>    
-    </record>
+    </record>   
 
     <!-- Form view -->
     <record id = "estate_property_form_view" model = "ir.ui.view">
@@ -25,6 +25,8 @@
         <field name = "arch" type = "xml">
             <form>
                 <header>
+                    <button string = "Sold" type = "object" name = "action_sold"/>
+                    <button string = "Cancel" type = "object" name = "action_cancel"/>
                     <field name = "state" widget = "statusbar"></field>
                 </header>
 
