@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 from dateutil.relativedelta import relativedelta
 
 class RealEstate(models.Model):
@@ -18,7 +18,7 @@ class RealEstate(models.Model):
     date_availability = fields.Date(copy = False, default = _default_date)
     excepted_price = fields.Float(required = True)
     selling_price = fields.Float(readonly = True, copy = False)
-    bedrooms = fields.Float(default = 2)
+    bedrooms = fields.Integer(default = 2)
     living_area = fields.Integer()
     facades = fields.Integer()
     garage = fields.Boolean()
@@ -48,3 +48,15 @@ class RealEstate(models.Model):
         'estate.property.tag',  # The related model (assuming this is your tag model)
         string='Tags'
     )
+    total_area = fields.Integer(compute = "_compute_total_area")
+    best_price = fields.Float(compute = "_compute_best_price")
+
+    @api.depends("offer_ids.price")
+    def _compute_best_price(self):
+        for property in self:
+            property.best_price = max(property.offer_ids.mapped("price")) if property.offer_ids else 0
+
+    @api.depends("living_area", "garden_area")
+    def _compute_total_area(self):
+        for property in self:
+            property.total_area = property.living_area + property.garden_area

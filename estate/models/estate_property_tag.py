@@ -7,3 +7,8 @@ class EstateProperyTag(models.Model):
                     """
     # Fields
     name = fields.Char(string = "Tag", required = True)
+
+    property_ids = fields.Many2many(
+        'estate.property',
+        string = "Property"
+    )
