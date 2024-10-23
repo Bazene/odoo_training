@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 class PropertyType(models.Model):
     _name = "estate.property.type"
@@ -28,3 +28,14 @@ class PropertyType(models.Model):
             offer.offer_count = len(offer.offer_ids) 
 
     # Public methods
+    def action_open_list_offers(self):
+        return {
+            "name" : _("Related offers"),
+            "type" : "ir.actions.act_window",
+            "view_mode" : "tree,form",
+            "res_model" : "estate.property.offer",
+            "target" : "current",
+            "domain" : [("property_type_id", "=", self.id)],
+            "context" : {"defaut_property_type_id" : self.id},
+        }
+    
