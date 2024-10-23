@@ -94,12 +94,19 @@ class RealEstate(models.Model):
                     }
                 }
             
+    @api.ondelete(at_uninstall = False)
+    def _unlink_if_state_not_new_canceled(self):
+        for property in self:
+            if property.state not in ("new", "canceled"):
+                raise UserError("This property can't be deleted because its stage is not 'New' or 'Canceled'.")
+
     # Python constraints
     @api.constrains("selling_price", "excepted_price") # this allow triggered the constraint every time selling price or the expected price is changed
     def _check_constraints(self):
         for property in self:
-            if property.selling_price < 0.9* property.excepted_price:
-                raise ValidationError(("The selling price cannot be lower than 90 percent of the expected_price"))
+            if property.selling_price > 0 and property.excepted_price > 0 :
+                if property.selling_price < 0.9* property.excepted_price:
+                    raise ValidationError(("The selling price cannot be lower than 90 percent of the expected_price"))
                 
     # Public methods
     # methods for sold and canceled property buttons

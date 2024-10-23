@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from datetime import timedelta
 from odoo.exceptions import UserError
 
@@ -62,3 +62,26 @@ class PropertyOffer(models.Model):
         if self.property_id.selling_price == self.price :
             self.property_id.selling_price = 0.00
         self.status = "refused"
+
+    @api.model
+    def create(self, vals):
+        # Get the property_id from vals
+        property_id = vals.get('property_id')
+        offer_price = vals.get('price')
+
+        # Check if there are existing offers for the property with a higher amount
+        existing_offers = self.search([
+            ('property_id', '=', property_id),
+            ('price', '>', offer_price)
+        ])
+
+        if existing_offers:
+            raise UserError(_('Cannot create this offer. The amount must be higher than existing offers.'))
+
+        # Update the related property's state to 'Offer Received'
+        property_record = self.env['estate.property'].browse(property_id)
+        if property_record:
+            property_record.write({'state': 'received'})
+        
+        # Call the super method to create the offer
+        return super(PropertyOffer, self).create(vals)
