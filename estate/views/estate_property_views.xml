@@ -11,8 +11,9 @@
                 <field name = "postcode"/>
                 <field name = "excepted_price"/>
                 <field name = "bedrooms"/>
-                <field name = "living_area"/>   
-                <filter name = "filter_state_name" string = "New or Offer Received" domain="['|', ('state', '=', 'new'), ('state', '=', 'received')]"/> 
+                <field name = "living_area"/>  
+                <filter name = "available" string = "Available Property" domain = "[('state', 'in', ('new', 'received', 'accepted'))]"/>
+                <filter name = "filter_state_name" string = "New or Offer Received" domain = "['|', ('state', '=', 'new'), ('state', '=', 'received')]"/> 
                 <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}"/>
             </search>
         </field>    
@@ -131,6 +132,6 @@
         <field name = "name">Properties</field>
         <field name = "res_model">estate.property</field>
         <field name = "view_mode">tree,form,kanban</field>
-        <field name = "context">{'search_default_filter_state_name': 1}</field>
+        <field name = "context">{'search_default_available': True}</field>
     </record>
 </odoo>
