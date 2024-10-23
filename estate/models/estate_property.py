@@ -59,7 +59,7 @@ class RealEstate(models.Model):
     @api.depends("living_area", "garden_area")
     def _compute_total_area(self):
         for property in self:
-            property.total_area = property.living_area + property.garden_area if property.living_area and property.garden_area else 0
+            property.total_area = property.living_area + property.garden_area
 
     @api.onchange("garden")
     def _onchange_garden(self):
@@ -81,4 +81,3 @@ class RealEstate(models.Model):
                             "message": ("The availability date is set to a date prior to today.")
                         }
                     }
-            
