@@ -3,7 +3,7 @@
     "author":"Serge",
     "version": "17.0.1.0",
     "category": 'Real Estate',
-    "depends": ["base"],
+    "depends": ["base","mail"],
     'license': 'LGPL-3',
     "installable":True,
     "application": True,

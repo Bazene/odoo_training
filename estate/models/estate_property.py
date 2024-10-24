@@ -5,6 +5,8 @@ from odoo.exceptions import UserError, ValidationError
 class RealEstate(models.Model):
     # Model name and description
     _name = "estate.property"
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Inherit the mail mixins
+
     _description =  """
                         Estate property model
                     """
