@@ -29,8 +29,8 @@
                 <field name = "property_id"/>
                 <field name = "partner_id"/>
                 <field name = "price"/>
-                <button icon="fa-check" type = "object"  name = "action_accept"/>
-                <button icon="fa-close" type = "object"  name = "action_Refused"/>
+                <button icon = "fa-check" type = "object"  name = "action_accept" title = "Accept Offer"/>
+                <button icon = "fa-close" type = "object"  name = "action_Refused" title = "Refuse Offer"/>
                 <field name = "status"/>
                 <field name = "property_type_id"/>
                 <field name = "validity"/>
