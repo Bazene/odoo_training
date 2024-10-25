@@ -24,8 +24,8 @@ class PropertyType(models.Model):
     # Private methods 
     @api.depends('offer_ids')
     def _compute_offers_count(self):
-        for offer in self:
-            offer.offer_count = len(offer.offer_ids) 
+        for property in self:
+            property.offer_count = len(property.offer_ids) 
 
     # Public methods
     def action_open_list_offers(self):
