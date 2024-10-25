@@ -1,7 +1,8 @@
 <odoo>
     <menuitem id = "root_level" name = "Real Estate">
-        <menuitem id = "estate_item" name = "Estate">
+        <menuitem id = "estate_item" name = "Advertisement">
             <menuitem id = "properties_item" name = "Properties" action = "test_record" />
+            <menuitem id = "Property_type" name = "Property Type" action = "offer_record"/>
         </menuitem>
     </menuitem>  
 
