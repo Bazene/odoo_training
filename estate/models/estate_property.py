@@ -77,24 +77,24 @@ class RealEstate(models.Model):
 
     @api.onchange("garden")
     def _onchange_garden(self):
-        for property in self:
-            if property.garden :
-                property.garden_area = property.garden * 2
-                property.garden_orientation = "north"
-            else :
-                property.garden_area = 0
-                property.garden_orientation = False
+        self.ensure_one()
+        if self.garden :
+            self.garden_area = 2
+            self.garden_orientation = "north"
+        else :
+            self.garden_area = 0
+            self.garden_orientation = False
 
     @api.onchange("date_availability")
-    def _onchange_date_availability(self):  
-        for property in self:
-            if (property.date_availability - fields.Date.today()).days < 0 :
-                return {
-                    "warning": {
-                        "title": ("Warning"),
-                        "message": ("The availability date is set to a date prior to today.")
-                    }
+    def _onchange_date_availability(self): 
+        self.ensure_one() 
+        if (self.date_availability - fields.Date.today()).days < 0 :
+            return {
+                "warning": {
+                    "title": ("Warning"),
+                    "message": ("The availability date is set to a date prior to today.")
                 }
+            }
             
     @api.ondelete(at_uninstall = False)
     def _unlink_if_state_not_new_canceled(self):
@@ -113,13 +113,13 @@ class RealEstate(models.Model):
     # Public methods
     # methods for sold and canceled property buttons
     def action_sold(self):
-        for property in self:
-            if property.state == 'canceled':
-                raise UserError("A canceled property cannot be sold.")
-            property.state = 'sold'
+        self.ensure_one()
+        if self.state == 'canceled':
+            raise UserError("A canceled property cannot be sold.")
+        self.state = 'sold'
 
     def action_cancel(self):
-        for property in self:
-            if property.state == 'sold':
-                raise UserError("A sold property cannot be canceled.")
-            property.state = 'canceled'
+        self.ensure_one()
+        if self.state == 'sold':
+            raise UserError("A sold property cannot be canceled.")
+        self.state = 'canceled'

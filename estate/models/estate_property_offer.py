@@ -57,7 +57,7 @@ class PropertyOffer(models.Model):
         self.property_id.selling_price = self.price
         self.property_id.buyer_id = self.partner_id
     
-    def action_Refused(self):
+    def action_refused(self):
         self.ensure_one()
         if self.property_id.selling_price == self.price :
             self.property_id.selling_price = 0.00
