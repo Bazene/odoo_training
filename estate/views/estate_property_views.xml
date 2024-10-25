@@ -79,14 +79,16 @@
                                 <tree
                                     decoration-success = "status == 'accepted'"
                                     decoration-danger = "status == 'refused'"
-                                    create = "status != 'accepted' and state not in ('sold','canceled')"
+                                    create = "state not in ['accepted','sold','canceled']"
+                                    editable = "bottom"
                                 >
                                     <field name = "price"/>
                                     <field name = "partner_id"/>
                                     <field name = "validity"/>
+                                    <field name = "create_date"/>
                                     <field name = "date_deadline"/>
-                                    <button string = '✔' type = "object"  name = "action_accept" invisible = "status in ('accepted', 'refused')"/>
-                                    <button string = '✖' type = "object"  name = "action_Refused" invisible = "status in ('accepted', 'refused')"/>
+                                    <button icon = "fa-check" title = "Accepted" type = "object"  name = "action_accept" invisible = "status in ('accepted', 'refused')"/>
+                                    <button icon = "fa-close" title = "Refused" type = "object"  name = "action_Refused" invisible = "status in ('accepted', 'refused')"/>
                                     <field name = "status" optional = "False"/>
                                 </tree>
                             </field>
@@ -119,6 +121,7 @@
             <tree 
                 decoration-success = "state in ('received','accepted')"
                 decoration-muted = "state == 'sold'"
+                decoration-bf = "state == 'accepted'"
             >
                 <field name = "name"/>
                 <field name = "property_type_id"/>

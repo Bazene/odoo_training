@@ -28,7 +28,7 @@
                     <field name = "name"/>
 
                     <notebook>
-                        <page name = "properties" string = "Properties">
+                        <page string = "Properties">
                             <!-- Inline tree -->
                             <field name = "property_ids">
                                 <tree>
