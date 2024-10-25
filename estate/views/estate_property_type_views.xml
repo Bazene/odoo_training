@@ -19,6 +19,19 @@
             <form>
                 <sheet>
                     <field name = "name"/>
+
+                    <notebook>
+                        <page name = "properties" string = "Properties">
+                            <!-- Inline tree -->
+                            <field name = "property_ids">
+                                <tree>
+                                    <field name = "name" />
+                                    <field name = "excepted_price" />
+                                    <field name = "state" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -30,6 +43,8 @@
         <field name = "model">estate.property.type</field>
         <field name = "arch" type = "xml">
             <tree>
+                <!-- Manual Ordering -->
+                <field name = "sequence" widget = "handle"/>
                 <field name = "name" string = "Property Type"/>
             </tree>
         </field>

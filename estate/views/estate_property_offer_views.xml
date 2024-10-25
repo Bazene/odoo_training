@@ -25,13 +25,17 @@
         <field name = "name">estate.property.offer.tree</field>
         <field name = "model">estate.property.offer</field>
         <field name = "arch" type = "xml">
-            <tree string = "Real Estate Property Offers" create = "true" edit = "true" delete = "true">
+            <tree 
+                string = "Offers" 
+                decoration-success = "status == 'accepted'"
+                decoration-danger = "status == 'refused'"
+            >
                 <field name = "property_id"/>
                 <field name = "partner_id"/>
                 <field name = "price"/>
-                <button icon = "fa-check" type = "object"  name = "action_accept" title = "Accept Offer"/>
-                <button icon = "fa-close" type = "object"  name = "action_Refused" title = "Refuse Offer"/>
-                <field name = "status"/>
+                <field name = "status" optional = "False"/>
+                <button icon = "fa-check" type = "object"  name = "action_accept" title = "Accept Offer" invisible = "status in ('accepted', 'refused')"/>
+                <button icon = "fa-close" type = "object"  name = "action_Refused" title = "Refuse Offer" invisible = "status in ('accepted', 'refused')"/>
                 <field name = "property_type_id"/>
                 <field name = "validity"/>
                 <field name = "date_deadline"/>

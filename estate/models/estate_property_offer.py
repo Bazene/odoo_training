@@ -7,6 +7,8 @@ class PropertyOffer(models.Model):
     _description = """
                     Offers made for real estates
                 """
+    _order = "price desc"
+
     # Fields
     price = fields.Float()
     status = fields.Selection(
@@ -22,6 +24,11 @@ class PropertyOffer(models.Model):
     property_type_id = fields.Many2one(related = "property_id.property_type_id", store = True)
     validity = fields.Integer(default = 7)
     date_deadline = fields.Date(compute = "_compute_date_deadline", inverse = "_inverse_date_deadline")
+    
+    # SQL Constraints
+    _sql_constraints = [
+        ("check_offer_price", "CHECK(price > 0)", "An offer price must be strictly positive"),
+    ]
 
     # Private methods
     @api.depends('validity', 'create_date')

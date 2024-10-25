@@ -1,6 +1,6 @@
 from odoo import api, fields, models
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 class RealEstate(models.Model):
     # Model name and description
@@ -8,6 +8,8 @@ class RealEstate(models.Model):
     _description =  """
                         Estate property model
                     """
+    _order = "buyer_id,property_type_id,salesperson_id desc"
+
     # Fields
     name = fields.Char(required=True)
     description = fields.Text() 
@@ -52,6 +54,12 @@ class RealEstate(models.Model):
     total_area = fields.Integer(compute = "_compute_total_area")
     best_price = fields.Float(compute = "_compute_best_price")
 
+    # SQL Constraints
+    _sql_constraints = [
+        ("check_excepted_price", "CHECK(excepted_price > 0)", "A property expected price must be strictly positive."),
+        ("check_selling_price", "CHECK(excepted_price >= 0)", "A property selling price must be positive."),
+    ]
+
     # Private methods
     @api.depends("offer_ids.price")
     def _compute_best_price(self):
@@ -84,6 +92,13 @@ class RealEstate(models.Model):
                     }
                 }
             
+    # Python constraints
+    @api.constrains("selling_price", "excepted_price") # this allow triggered the constraint every time selling price or the expected price is changed
+    def _check_constraints(self):
+        for property in self:
+            if property.selling_price < 0.9* property.excepted_price:
+                raise ValidationError(("The selling price cannot be lower than 90 percent of the expected_price"))
+                
     # Public methods
     # methods for sold and canceled property buttons
     def action_sold(self):
