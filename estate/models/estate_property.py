@@ -1,5 +1,6 @@
 from odoo import api, fields, models
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
 
 class RealEstate(models.Model):
     # Model name and description
@@ -51,6 +52,7 @@ class RealEstate(models.Model):
     total_area = fields.Integer(compute = "_compute_total_area")
     best_price = fields.Float(compute = "_compute_best_price")
 
+    # Private methods
     @api.depends("offer_ids.price")
     def _compute_best_price(self):
         for property in self:
@@ -60,3 +62,38 @@ class RealEstate(models.Model):
     def _compute_total_area(self):
         for property in self:
             property.total_area = property.living_area + property.garden_area
+
+    @api.onchange("garden")
+    def _onchange_garden(self):
+        for property in self:
+            if property.garden :
+                property.garden_area = property.garden * 2
+                property.garden_orientation = "north"
+            else :
+                property.garden_area = 0
+                property.garden_orientation = False
+
+    @api.onchange("date_availability")
+    def _onchange_date_availability(self):  
+        for property in self:
+            if (property.date_availability - fields.Date.today()).days < 0 :
+                return {
+                    "warning": {
+                        "title": ("Warning"),
+                        "message": ("The availability date is set to a date prior to today.")
+                    }
+                }
+            
+    # Public methods
+    # methods for sold and canceled property buttons
+    def action_sold(self):
+        for property in self:
+            if property.state == 'canceled':
+                raise UserError("A canceled property cannot be sold.")
+            property.state = 'sold'
+
+    def action_cancel(self):
+        for property in self:
+            if property.state == 'sold':
+                raise UserError("A sold property cannot be canceled.")
+            property.state = 'canceled'
