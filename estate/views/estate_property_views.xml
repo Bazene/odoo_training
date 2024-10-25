@@ -88,7 +88,7 @@
                                     <field name = "create_date"/>
                                     <field name = "date_deadline"/>
                                     <button icon = "fa-check" title = "Accepted" type = "object"  name = "action_accept" invisible = "status in ('accepted', 'refused')"/>
-                                    <button icon = "fa-close" title = "Refused" type = "object"  name = "action_Refused" invisible = "status in ('accepted', 'refused')"/>
+                                    <button icon = "fa-close" title = "Refused" type = "object"  name = "action_refused" invisible = "status in ('accepted', 'refused')"/>
                                     <field name = "status" optional = "False"/>
                                 </tree>
                             </field>
