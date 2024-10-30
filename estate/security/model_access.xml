@@ -4,5 +4,16 @@
         <record id = "estate.access_estate_property" model = "ir.model.access">
             <field name = "group_id" ref = "estate.group_property_manager"/>
         </record>
+
+        <!--  Create an access rule with a record  -->
+        <record id = "access_estate_property_type" model = "ir.model.access">
+            <field name = "name">access_estate_property_type</field>
+            <field name = "model_id" ref = "estate.model_estate_property_type"/>
+            <field name = "group_id" ref = "estate.group_property_manager"/>
+            <field name = "perm_read">1</field>
+            <field name = "perm_create">1</field>
+            <field name = "perm_write">1</field>
+            <field name = "perm_unlink">1</field>
+        </record>
     </data>
 </odoo>
