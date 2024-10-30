@@ -6,7 +6,6 @@ class RealEstate(models.Model):
     # Model name and description
     _name = "estate.property"
     _inherit = ['mail.thread', 'mail.activity.mixin']  # Inherit the mail mixins
-
     _description =  """
                         Estate property model
                     """
@@ -40,7 +39,7 @@ class RealEstate(models.Model):
             ("accepted", "Offer Accepted"), 
             ("sold", "Sold"), 
             ("canceled", "Canceled"),
-        ], 
+        ],
         required = True, 
         copy = False, 
         default = "new",
@@ -78,6 +77,7 @@ class RealEstate(models.Model):
     @api.onchange("garden")
     def _onchange_garden(self):
         self.ensure_one()
+        # print(f"Hire is the Offer_ids you want to display {self.offer_ids.mapped("price")} and the property_type_id is {self.property_type_id} and the tag_ids are {self.tag_ids}")
         if self.garden :
             self.garden_area = 2
             self.garden_orientation = "north"

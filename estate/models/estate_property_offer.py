@@ -75,6 +75,12 @@ class PropertyOffer(models.Model):
             ('price', '>', offer_price)
         ])
 
+        # existing_offers = property_id.offer_ids.filtered(lambda o: o.price > offer_price)
+        # Fetch the property record if property_id is an integer
+        # property_record = self.env['estate.property'].browse(property_id) if isinstance(property_id, int) else property_id
+        # existing_offers = property_record.offer_ids.filtered(lambda o: o.price > offer_price)
+
+        # print(f"f +++++++++++++++++ {property_id.offer_ids.filtered(lambda o: o.price > offer_price)}")
         if existing_offers:
             raise UserError(_('Cannot create this offer. The amount must be higher than existing offers.'))
 

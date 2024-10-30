@@ -7,6 +7,11 @@ class PropertyType(models.Model):
                     """
     _order = "name,sequence desc"
 
+    # SQL Constraints
+    _sql_constraints = [
+        ("unique_type_name", "UNIQUE(name)", "A property type name must be unique"),
+    ]
+
     # Fields
     name = fields.Char(string = "Property Type", required = True)
     sequence = fields.Integer(default = 1)
@@ -15,11 +20,6 @@ class PropertyType(models.Model):
     # Many2one and One2many fields
     property_ids = fields.One2many("estate.property", "property_type_id", string = "Property")
     offer_ids = fields.One2many("estate.property.offer", "property_type_id", string = "Offers")
-
-    # SQL Constraints
-    _sql_constraints = [
-        ("unique_type_name", "UNIQUE(name)", "A property type name must be unique"),
-    ]
 
     # Private methods 
     @api.depends('offer_ids')
