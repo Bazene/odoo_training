@@ -5,6 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 class RealEstate(models.Model):
     # Model name and description
     _name = "estate.property"
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Inherit the mail mixins
     _description =  """
                         Estate property model
                     """
@@ -38,11 +39,15 @@ class RealEstate(models.Model):
             ("accepted", "Offer Accepted"), 
             ("sold", "Sold"), 
             ("canceled", "Canceled"),
-        ], 
+        ],
         required = True, 
         copy = False, 
         default = "new",
     )
+    total_area = fields.Integer(compute = "_compute_total_area")
+    best_price = fields.Float(compute = "_compute_best_price")
+
+    # Many2one and One2many fields
     property_type_id = fields.Many2one("estate.property.type", string = "Property Type")
     buyer_id = fields.Many2one("res.partner", string = "Buyer", copy = False)
     salesperson_id = fields.Many2one('res.users', string = "Salesperson", default = lambda self: self.env.user)
@@ -51,8 +56,6 @@ class RealEstate(models.Model):
         'estate.property.tag',  # The related model (assuming this is your tag model)
         string='Tags'
     )
-    total_area = fields.Integer(compute = "_compute_total_area")
-    best_price = fields.Float(compute = "_compute_best_price")
 
     # SQL Constraints
     _sql_constraints = [
@@ -73,42 +76,50 @@ class RealEstate(models.Model):
 
     @api.onchange("garden")
     def _onchange_garden(self):
-        for property in self:
-            if property.garden :
-                property.garden_area = property.garden * 2
-                property.garden_orientation = "north"
-            else :
-                property.garden_area = 0
-                property.garden_orientation = False
+        self.ensure_one()
+        # print(f"Hire is the Offer_ids you want to display {self.offer_ids.mapped("price")} and the property_type_id is {self.property_type_id} and the tag_ids are {self.tag_ids}")
+        if self.garden :
+            self.garden_area = 2
+            self.garden_orientation = "north"
+        else :
+            self.garden_area = 0
+            self.garden_orientation = False
 
     @api.onchange("date_availability")
-    def _onchange_date_availability(self):  
-        for property in self:
-            if (property.date_availability - fields.Date.today()).days < 0 :
-                return {
-                    "warning": {
-                        "title": ("Warning"),
-                        "message": ("The availability date is set to a date prior to today.")
-                    }
+    def _onchange_date_availability(self): 
+        self.ensure_one() 
+        if (self.date_availability - fields.Date.today()).days < 0 :
+            return {
+                "warning": {
+                    "title": ("Warning"),
+                    "message": ("The availability date is set to a date prior to today.")
                 }
+            }
             
+    @api.ondelete(at_uninstall = False)
+    def _unlink_if_state_not_new_canceled(self):
+        for property in self:
+            if property.state not in ("new", "canceled"):
+                raise UserError("This property can't be deleted because its stage is not 'New' or 'Canceled'.")
+
     # Python constraints
     @api.constrains("selling_price", "excepted_price") # this allow triggered the constraint every time selling price or the expected price is changed
     def _check_constraints(self):
         for property in self:
-            if property.selling_price < 0.9* property.excepted_price:
-                raise ValidationError(("The selling price cannot be lower than 90 percent of the expected_price"))
+            if property.selling_price > 0 and property.excepted_price > 0 :
+                if property.selling_price < 0.9* property.excepted_price:
+                    raise ValidationError(("The selling price cannot be lower than 90 percent of the expected_price"))
                 
     # Public methods
     # methods for sold and canceled property buttons
     def action_sold(self):
-        for property in self:
-            if property.state == 'canceled':
-                raise UserError("A canceled property cannot be sold.")
-            property.state = 'sold'
+        self.ensure_one()
+        if self.state == 'canceled':
+            raise UserError("A canceled property cannot be sold.")
+        self.state = 'sold'
 
     def action_cancel(self):
-        for property in self:
-            if property.state == 'sold':
-                raise UserError("A sold property cannot be canceled.")
-            property.state = 'canceled'
+        self.ensure_one()
+        if self.state == 'sold':
+            raise UserError("A sold property cannot be canceled.")
+        self.state = 'canceled'

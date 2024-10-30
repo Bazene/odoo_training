@@ -11,8 +11,9 @@
                 <field name = "postcode"/>
                 <field name = "excepted_price"/>
                 <field name = "bedrooms"/>
-                <field name = "living_area"/>   
-                <filter name = "filter_state_name" string = "New or Offer Received" domain="['|', ('state', '=', 'new'), ('state', '=', 'received')]"/> 
+                <field name = "living_area" filter_domain = "[('living_area', '>=', self)]"/>  
+                <filter name = "available" string = "Available Property" domain = "[('state', 'in', ('new', 'received', 'accepted'))]"/>
+                <filter name = "filter_state_name" string = "New or Offer Received" domain = "['|', ('state', '=', 'new'), ('state', '=', 'received')]"/> 
                 <filter name = "group_by_postcore" string = "Postcode" context = "{'group_by':'postcode'}"/>
             </search>
         </field>    
@@ -37,7 +38,6 @@
                             <field name = "name" placeholder = "Enter name here"/>
                         </h1>
                         <field name = "tag_ids" widget = "many2many_tags" options = "{'color_field': 'color'}"/>
-
                     </group>
 
                     <group colspan="2">
@@ -78,14 +78,16 @@
                                 <tree
                                     decoration-success = "status == 'accepted'"
                                     decoration-danger = "status == 'refused'"
-                                    create = "status != 'accepted' and state not in ('sold','canceled')"
+                                    create = "state not in ['accepted','sold','canceled']"
+                                    editable = "bottom"
                                 >
                                     <field name = "price"/>
                                     <field name = "partner_id"/>
                                     <field name = "validity"/>
+                                    <field name = "create_date"/>
                                     <field name = "date_deadline"/>
-                                    <button string = '✔' type = "object"  name = "action_accept" invisible = "status in ('accepted', 'refused')"/>
-                                    <button string = '✖' type = "object"  name = "action_Refused" invisible = "status in ('accepted', 'refused')"/>
+                                    <button icon = "fa-check" title = "Accepted" type = "object"  name = "action_accept" invisible = "status in ('accepted', 'refused')"/>
+                                    <button icon = "fa-close" title = "Refused" type = "object"  name = "action_refused" invisible = "status in ('accepted', 'refused')"/>
                                     <field name = "status" optional = "False"/>
                                 </tree>
                             </field>
@@ -99,6 +101,13 @@
                         </page>
                     </notebook>
                 </sheet>
+
+                <!-- Chatter section -->
+                <div class="oe_chatter">
+                    <field name = "message_follower_ids" widget = "mail_followers"/>
+                    <field name = "activity_ids" widget = "mail_activity"/>
+                    <field name = "message_ids" widget = "mail_thread"/>
+                </div>
             </form>
         </field>    
     </record>
@@ -111,6 +120,7 @@
             <tree 
                 decoration-success = "state in ('received','accepted')"
                 decoration-muted = "state == 'sold'"
+                decoration-bf = "state == 'accepted'"
             >
                 <field name = "name"/>
                 <field name = "property_type_id"/>
@@ -127,10 +137,10 @@
     </record>
 
     <!-- Action for property type -->
-    <record id = "test_record" model = "ir.actions.act_window">
+    <record id = "property_record" model = "ir.actions.act_window">
         <field name = "name">Properties</field>
         <field name = "res_model">estate.property</field>
         <field name = "view_mode">tree,form,kanban</field>
-        <field name = "context">{'search_default_filter_state_name': 1}</field>
+        <field name = "context">{'search_default_available': True}</field>
     </record>
 </odoo>

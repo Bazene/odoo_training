@@ -3,7 +3,7 @@
     "author":"Serge",
     "version": "17.0.1.0",
     "category": 'Real Estate',
-    "depends": ["base"],
+    "depends": ["base","mail"],
     'license': 'LGPL-3',
     "installable":True,
     "application": True,
@@ -13,10 +13,12 @@
     """,
     "data": [
         # SECURITY
+        "security/model_access.xml",
         "security/res_groups.xml",
         "security/ir.model.access.csv",
 
         # VIEWS
+        "views/res_users_views.xml",
         "views/estate_property_tag_views.xml",
         "views/estate_property_offer_views.xml",
         "views/estate_property_type_views.xml",
