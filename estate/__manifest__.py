@@ -13,6 +13,7 @@
     """,
     "data": [
         # SECURITY
+        "security/ir_rule.xml",
         "security/model_access.xml",
         "security/res_groups.xml",
         "security/ir.model.access.csv",
