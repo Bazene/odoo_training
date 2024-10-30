@@ -1,0 +1,67 @@
+<odoo>
+    <!-- Search view -->
+    <record id = "estate_property_type_search" model = "ir.ui.view">
+        <field name = "name">estate.property.type.search.view</field>
+        <field name = "model">estate.property.type</field>
+        <field name = "arch" type = "xml">
+            <search>
+                <field name = "name"/>
+                <filter name = "group_by_property_type" string = "Property Type" context = "{'group_by':'name'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Form view -->
+    <record id = "estate_property_type_form_view" model = "ir.ui.view">
+        <field name = "name">estate.property.type.form.view</field>
+        <field name = "model">estate.property.type</field>
+        <field name = "arch" type = "xml">
+            <form>
+                <sheet>
+                    <!-- Stat button -->
+                    <div class = "oe_button_box" name = "button_box">
+                        <button name = "action_open_list_offers" type = "object" class = "oe_stat_button" icon = "fa-list">
+                            <field name = "offer_count" string = "Offers" widget = "line_count"/>
+                        </button>
+                    </div>
+
+                    <field name = "name"/>
+
+                    <notebook>
+                        <page string = "Properties">
+                            <!-- Inline tree -->
+                            <field name = "property_ids">
+                                <tree>
+                                    <field name = "name" />
+                                    <field name = "excepted_price" />
+                                    <field name = "state" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- List view -->
+    <record id = "estate_property_type_tree_view" model = "ir.ui.view">
+        <field name = "name">estate.property.type.tree.view</field>
+        <field name = "model">estate.property.type</field>
+        <field name = "arch" type = "xml">
+            <tree>
+                <!-- Manual Ordering -->
+                <field name = "sequence" widget = "handle"/>
+                <field name = "name" string = "Property Type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id = "action_type" model = "ir.actions.act_window">
+        <field name = "name">Property Type</field>
+        <field name = "res_model">estate.property.type</field>
+        <field name = "view_mode">tree,form</field>
+        <field name = "context">{'search_default_group_by_property_type': 1}</field>
+    </record>
+</odoo>
