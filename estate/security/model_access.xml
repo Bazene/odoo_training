@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <!--  Override the access rule   -->
+        <record id = "estate.access_estate_property" model = "ir.model.access">
+            <field name = "group_id" ref = "estate.group_property_manager"/>
+        </record>
+    </data>
+</odoo>
