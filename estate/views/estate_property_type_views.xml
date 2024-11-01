@@ -20,8 +20,8 @@
                 <sheet>
                     <!-- Stat button -->
                     <div class = "oe_button_box" name = "button_box">
-                        <button name = "action_open_list_offers" type = "object" class = "oe_stat_button" icon = "fa-list">
-                            <field name = "offer_count" string = "Offers" widget = "line_count"/>
+                        <button class = "oe_stat_button" name = "action_open_list_offers" type = "object" icon = "fa-handshake-o">
+                            <field name = "offer_count" string = "Offers" widget = "statinfo"/>
                         </button>
                     </div>
 
