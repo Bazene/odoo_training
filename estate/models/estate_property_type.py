@@ -38,4 +38,11 @@ class PropertyType(models.Model):
             "domain" : [("property_type_id", "=", self.id)],
             "context" : {"defaut_property_type_id" : self.id},
         }
-    
+
+    # Url action
+    def action_url_action(self):
+        return {
+            "type": "ir.actions.act_url",
+            "url": "https://odoo.com",
+            "target": "self", # "target": "new",
+        }
