@@ -92,6 +92,7 @@ class PropertyOffer(models.Model):
         # Call the super method to create the offer
         return super(PropertyOffer, self).create(vals)
 
+    # Server action function
     def extend_offer_deadline(self):
         activ_ids = self._context.get('active_ids', [])
 
@@ -99,3 +100,9 @@ class PropertyOffer(models.Model):
             offer_ids = self.env['estate.property.offer'].browse(activ_ids)
             for offer in offer_ids:
                 offer.validity = 10
+
+    # Automated action function
+    def _extend_offer_deadline(self):
+        offer_ids = self.env['estate.property.offer'].search([])
+        for offer in offer_ids:
+            offer.validity = offer.validity + 1
