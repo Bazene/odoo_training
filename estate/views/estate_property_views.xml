@@ -28,12 +28,12 @@
                 <header>
                     <button string = "Sold" type = "object" name = "action_sold" invisible = "state == 'sold'"/>
                     <button string = "Cancel" type = "object" name = "action_cancel" invisible = "state == 'canceled'"/>
-                    <field name = "state" widget = "statusbar" statusbar_visible = "new,received,accepted,sold,canceled"></field>
+                    <field name = "state" widget = "statusbar" statusbar_visible = "new,received,accepted,sold,canceled"/>
                 </header>
 
                 <sheet>
                     <group>
-                        <label for="name"/>
+                        <label for = "name"/>
                         <h1>
                             <field name = "name" placeholder = "Enter name here"/>
                         </h1>
@@ -142,5 +142,34 @@
         <field name = "res_model">estate.property</field>
         <field name = "view_mode">tree,form,kanban</field>
         <field name = "context">{'search_default_available': True}</field>
+    </record>
+
+    <!--  Test Client Action  -->
+    <record id = "action_custom_client_action" model = "ir.actions.client">
+        <field name = "name">Custom Client Action</field>
+        <field name = "tag">estate.MyClientAction</field>
+    </record>
+
+    <!--  Test Server Action  -->
+    <record id = "action_extend_offer_deadline" model = "ir.actions.server">
+        <field name = "name">Extend Deadline</field>
+        <field name = "model_id" ref = "estate.model_estate_property_offer"/>
+        <field name = "state">code</field>
+        <field name = "binding_model_id" ref = "estate.model_estate_property_offer"/>
+        <field name = "binding_view_types">tree,form</field>
+        <field name = "code">
+            action = model.extend_offer_deadline()
+        </field>
+    </record>
+
+    <!--  Automated action  -->
+    <record id = "ir_cron_extend_offer_deadline" model = "ir.cron">
+        <field name = "name">Offers : Extend Deadline Everyday</field>
+        <field name = "model_id" ref = "estate.model_estate_property_offer"/>
+        <field name = "state">code</field>
+        <field name = "code">model._extend_offer_deadline()</field>
+        <field name = "interval_number">1</field>
+        <field name = "interval_type">days</field>
+        <field name = "numbercall">-1</field>
     </record>
 </odoo>

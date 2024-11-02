@@ -3,7 +3,7 @@
     "author":"Serge",
     "version": "17.0.1.0",
     "category": 'Real Estate',
-    "depends": ["base","mail"],
+    "depends": ["base", "mail", "web"],
     'license': 'LGPL-3',
     "installable":True,
     "application": True,
@@ -29,4 +29,10 @@
     "demo":[
         "demo/demo.xml"
     ],
+    "assets" : {
+        'web.assets_backend' : [
+            'estate/static/src/js/my_custom_tag.js',
+            'estate/static/src/xml/my_custom_template.xml',
+        ],
+    },
 }

@@ -9,4 +9,5 @@
     <menuitem id = "settings_item" name = "Settings" parent = "root_level"/>
     <menuitem id = "s_properties_item" name = "Property Type" parent = "settings_item" action = "action_type"/>
     <menuitem id = "s_properties_tag" name = "Property Tags" parent = "settings_item" action = "tag_record" groups = "estate.group_property_manager"/>
+    <menuitem id = "menu_test_client_action" name = "Test Client Action" parent = "settings_item" action = "estate.action_custom_client_action"/>
 </odoo>
