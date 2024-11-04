@@ -20,7 +20,7 @@ class RealEstate(models.Model):
         return fields.Date.today() + relativedelta(months=3)
 
     date_availability = fields.Date(copy = False, default = _default_date)
-    excepted_price = fields.Float(required = True)
+    excepted_price = fields.Float(required = True, tracking = True)
     selling_price = fields.Float(readonly = True, copy = False)
     bedrooms = fields.Integer(default = 2)
     living_area = fields.Integer()
