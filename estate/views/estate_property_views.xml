@@ -28,6 +28,7 @@
                 <header>
                     <button string = "Sold" type = "object" name = "action_sold" invisible = "state == 'sold'"/>
                     <button string = "Cancel" type = "object" name = "action_cancel" invisible = "state == 'canceled'"/>
+                    <button string = "Send email" type = "object" name = "action_send_email" invisible = "state == 'canceled'"/>
                     <field name = "state" widget = "statusbar" statusbar_visible = "new,received,accepted,sold,canceled"/>
                 </header>
 

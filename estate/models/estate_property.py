@@ -106,6 +106,9 @@ class RealEstate(models.Model):
             if property.state not in ("new", "canceled"):
                 raise UserError("This property can't be deleted because its stage is not 'New' or 'Canceled'.")
 
+    def _get_emails(self):
+        return ','.join(self.offer_ids.mapped('partner_email'))
+
     # Python constraints
     @api.constrains("selling_price", "excepted_price") # this allow triggered the constraint every time selling price or the expected price is changed
     def _check_constraints(self):
@@ -127,3 +130,7 @@ class RealEstate(models.Model):
         if self.state == 'sold':
             raise UserError("A sold property cannot be canceled.")
         self.state = 'canceled'
+
+    def action_send_email(self):
+        mail_template = self.env.ref('estate.offer_mail_template')
+        mail_template.send_mail(self.id, force_send = True)

@@ -21,7 +21,8 @@ class PropertyOffer(models.Model):
     )
     validity = fields.Integer(default = 7)
     date_deadline = fields.Date(compute = "_compute_date_deadline", inverse = "_inverse_date_deadline")
-    
+    partner_email = fields.Char(string = "Customer Email", related = "partner_id.email")
+
     # Many2one and One2many fields
     partner_id = fields.Many2one("res.partner", required = True, string = "Partner")
     property_id = fields.Many2one("estate.property", required = True, string = "Property")
@@ -45,7 +46,7 @@ class PropertyOffer(models.Model):
         for property in self:
             if property.create_date and property.date_deadline:
                 property.validity = (property.date_deadline - property.create_date.date()).days
-    
+
     # Public methods
     # methods for accepted and refuse offers buttons
     def action_accept(self):  

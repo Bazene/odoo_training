@@ -25,6 +25,9 @@
         "views/estate_property_type_views.xml",
         "views/estate_property_views.xml",
         "views/estate_menu.xml",
+
+        # DATA  FILES
+        "data/mail_template.xml"
     ],
     "demo":[
         "demo/demo.xml"
