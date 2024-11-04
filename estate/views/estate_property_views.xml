@@ -32,6 +32,13 @@
                 </header>
 
                 <sheet>
+                    <!-- Stat button -->
+                    <div class = "oe_button_box" name = "button_box">
+                        <button class = "oe_stat_button" name = "website_publish_button" type = "object" icon = "fa-globe">
+                            <field name = "is_published" widget = "website_publish_button"/>
+                        </button>
+                    </div>
+
                     <group>
                         <label for = "name"/>
                         <h1>
@@ -97,6 +104,7 @@
                             <group>
                                 <field name = "buyer_id"/>
                                 <field name = "salesperson_id"/>
+                                <field name = "website_url"/>
                             </group>
                         </page>
                     </notebook>

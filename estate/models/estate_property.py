@@ -5,7 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 class RealEstate(models.Model):
     # Model name and description
     _name = "estate.property"
-    _inherit = ['mail.thread', 'mail.activity.mixin']  # Inherit the mail mixins
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'website.published.mixin']  # Inherit the mail mixins and web mixin
     _description =  """
                         Estate property model
                     """
@@ -64,6 +64,10 @@ class RealEstate(models.Model):
     ]
 
     # Private methods
+    def _compute_website_url(self):
+        for rec in self:
+            rec.website_url = "/properties/%s" % (rec.id)
+
     @api.depends("offer_ids.price")
     def _compute_best_price(self):
         for property in self:
