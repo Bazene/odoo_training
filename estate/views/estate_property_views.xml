@@ -59,7 +59,20 @@
         </field>
     </record>
 
-    <!-- Form views -->
+    <!--  Calendar view  -->
+    <record id = "estate_property_calendar_view" model = "ir.ui.view">
+        <field name = "name">estate.property.view.calendar</field>
+        <field name = "model">estate.property</field>
+        <field name = "arch" type = "xml">
+            <calendar date_start = "date_availability" string = "Properties" mode = "month" event_open_popup = "true" quick_create = "false">
+                <field name = "name"/>
+                <field name = "date_availability"/>
+                <field name = "postcode"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Form view -->
     <record id = "estate_property_form_view" model = "ir.ui.view">
         <field name = "name">estate.property.view.name</field>
         <field name = "model">estate.property</field>
@@ -229,7 +242,7 @@
     <record id = "property_record" model = "ir.actions.act_window">
         <field name = "name">Properties</field>
         <field name = "res_model">estate.property</field>
-        <field name = "view_mode">kanban,graph,pivot,tree,form</field>
+        <field name = "view_mode">kanban,graph,pivot,calendar,tree,form</field>
         <field name = "view_id" ref = "estate_property_kanban_view"/>
         <field name = "context">{'search_default_available': True}</field>
     </record>
