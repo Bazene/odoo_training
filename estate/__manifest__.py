@@ -3,7 +3,7 @@
     "author":"Serge",
     "version": "17.0.1.0",
     "category": 'Real Estate',
-    "depends": ["base", "mail", "web"],
+    "depends": ["base", "mail", "web", "website"],
     'license': 'LGPL-3',
     "installable":True,
     "application": True,
@@ -25,6 +25,9 @@
         "views/estate_property_type_views.xml",
         "views/estate_property_views.xml",
         "views/estate_menu.xml",
+
+        # DATA  FILES
+        "data/mail_template.xml"
     ],
     "demo":[
         "demo/demo.xml"

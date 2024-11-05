@@ -43,10 +43,19 @@
         </field>
     </record>
 
+    <!--  Gantt view  -->
+    <record id = "estate_property_gantt_view" model = "ir.ui.view">
+        <field name = "name">estate.property.offer.gantt</field>
+        <field name = "model">estate.property.offer</field>
+        <field name = "arch" type = "xml">
+            <gantt date_start = "creation_date" date_stop = "deadline" default_group_by = "partner_id"/>
+        </field>
+    </record>
+
     <!-- Actions -->
     <record id = "offer_record" model = "ir.actions.act_window">
         <field name = "name">Offers</field>
         <field name = "res_model">estate.property.offer</field>
-        <field name = "view_mode">tree,form</field>
+        <field name = "view_mode">tree,gantt,form</field>
     </record>
 </odoo>

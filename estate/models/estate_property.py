@@ -5,7 +5,7 @@ from odoo.exceptions import UserError, ValidationError
 class RealEstate(models.Model):
     # Model name and description
     _name = "estate.property"
-    _inherit = ['mail.thread', 'mail.activity.mixin']  # Inherit the mail mixins
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'website.published.mixin']  # Inherit the mail mixins and web mixin
     _description =  """
                         Estate property model
                     """
@@ -20,7 +20,7 @@ class RealEstate(models.Model):
         return fields.Date.today() + relativedelta(months=3)
 
     date_availability = fields.Date(copy = False, default = _default_date)
-    excepted_price = fields.Float(required = True)
+    excepted_price = fields.Float(required = True, tracking = True)
     selling_price = fields.Float(readonly = True, copy = False)
     bedrooms = fields.Integer(default = 2)
     living_area = fields.Integer()
@@ -64,6 +64,10 @@ class RealEstate(models.Model):
     ]
 
     # Private methods
+    def _compute_website_url(self):
+        for rec in self:
+            rec.website_url = "/properties/%s" % (rec.id)
+
     @api.depends("offer_ids.price")
     def _compute_best_price(self):
         for property in self:
@@ -102,6 +106,9 @@ class RealEstate(models.Model):
             if property.state not in ("new", "canceled"):
                 raise UserError("This property can't be deleted because its stage is not 'New' or 'Canceled'.")
 
+    def _get_emails(self):
+        return ','.join(self.offer_ids.mapped('partner_email'))
+
     # Python constraints
     @api.constrains("selling_price", "excepted_price") # this allow triggered the constraint every time selling price or the expected price is changed
     def _check_constraints(self):
@@ -123,3 +130,7 @@ class RealEstate(models.Model):
         if self.state == 'sold':
             raise UserError("A sold property cannot be canceled.")
         self.state = 'canceled'
+
+    def action_send_email(self):
+        mail_template = self.env.ref('estate.offer_mail_template')
+        mail_template.send_mail(self.id, force_send = True)
