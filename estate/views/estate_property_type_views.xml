@@ -20,19 +20,15 @@
                 <sheet>
                     <!-- Stat button -->
                     <div class = "oe_button_box" name = "button_box">
-                        <button class = "oe_stat_button" name = "action_open_list_offers" type = "object" icon = "fa-handshake-o">
-                            <field name = "offer_count" string = "Offers" widget = "statinfo"/>
-                        </button>
-
-                        <button class = "oe_stat_button" name = "action_url_action" type = "object" icon = "fa-handshake-o">
-                            <field name = "offer_count" string = "Odoo" widget = "statinfo"/>
+                        <button name = "action_open_list_offers" type = "object" class = "oe_stat_button" icon = "fa-list">
+                            <field name = "offer_count" widget = "line_count" string = "Offers" />
                         </button>
                     </div>
 
                     <field name = "name"/>
 
                     <notebook>
-                        <page string = "Properties">
+                        <page name = "properties" string = "Properties">
                             <!-- Inline tree -->
                             <field name = "property_ids">
                                 <tree>

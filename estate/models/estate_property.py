@@ -5,7 +5,8 @@ from odoo.exceptions import UserError, ValidationError
 class RealEstate(models.Model):
     # Model name and description
     _name = "estate.property"
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'website.published.mixin']  # Inherit the mail mixins and web mixin
+    _inherit = ['mail.thread', 'mail.activity.mixin']  # Inherit the mail mixins
+
     _description =  """
                         Estate property model
                     """
@@ -20,7 +21,7 @@ class RealEstate(models.Model):
         return fields.Date.today() + relativedelta(months=3)
 
     date_availability = fields.Date(copy = False, default = _default_date)
-    excepted_price = fields.Float(required = True, tracking = True)
+    excepted_price = fields.Float(required = True)
     selling_price = fields.Float(readonly = True, copy = False)
     bedrooms = fields.Integer(default = 2)
     living_area = fields.Integer()
@@ -39,7 +40,7 @@ class RealEstate(models.Model):
             ("accepted", "Offer Accepted"), 
             ("sold", "Sold"), 
             ("canceled", "Canceled"),
-        ],
+        ], 
         required = True, 
         copy = False, 
         default = "new",
@@ -64,10 +65,6 @@ class RealEstate(models.Model):
     ]
 
     # Private methods
-    def _compute_website_url(self):
-        for rec in self:
-            rec.website_url = "/properties/%s" % (rec.id)
-
     @api.depends("offer_ids.price")
     def _compute_best_price(self):
         for property in self:
@@ -80,34 +77,30 @@ class RealEstate(models.Model):
 
     @api.onchange("garden")
     def _onchange_garden(self):
-        self.ensure_one()
-        # print(f"Hire is the Offer_ids you want to display {self.offer_ids.mapped("price")} and the property_type_id is {self.property_type_id} and the tag_ids are {self.tag_ids}")
-        if self.garden :
-            self.garden_area = 2
-            self.garden_orientation = "north"
-        else :
-            self.garden_area = 0
-            self.garden_orientation = False
+        for property in self:
+            if property.garden :
+                property.garden_area = property.garden * 2
+                property.garden_orientation = "north"
+            else :
+                property.garden_area = 0
+                property.garden_orientation = False
 
     @api.onchange("date_availability")
-    def _onchange_date_availability(self): 
-        self.ensure_one() 
-        if (self.date_availability - fields.Date.today()).days < 0 :
-            return {
-                "warning": {
-                    "title": ("Warning"),
-                    "message": ("The availability date is set to a date prior to today.")
+    def _onchange_date_availability(self):  
+        for property in self:
+            if (property.date_availability - fields.Date.today()).days < 0 :
+                return {
+                    "warning": {
+                        "title": ("Warning"),
+                        "message": ("The availability date is set to a date prior to today.")
+                    }
                 }
-            }
             
     @api.ondelete(at_uninstall = False)
     def _unlink_if_state_not_new_canceled(self):
         for property in self:
             if property.state not in ("new", "canceled"):
                 raise UserError("This property can't be deleted because its stage is not 'New' or 'Canceled'.")
-
-    def _get_emails(self):
-        return ','.join(self.offer_ids.mapped('partner_email'))
 
     # Python constraints
     @api.constrains("selling_price", "excepted_price") # this allow triggered the constraint every time selling price or the expected price is changed
@@ -120,17 +113,13 @@ class RealEstate(models.Model):
     # Public methods
     # methods for sold and canceled property buttons
     def action_sold(self):
-        self.ensure_one()
-        if self.state == 'canceled':
-            raise UserError("A canceled property cannot be sold.")
-        self.state = 'sold'
+        for property in self:
+            if property.state == 'canceled':
+                raise UserError("A canceled property cannot be sold.")
+            property.state = 'sold'
 
     def action_cancel(self):
-        self.ensure_one()
-        if self.state == 'sold':
-            raise UserError("A sold property cannot be canceled.")
-        self.state = 'canceled'
-
-    def action_send_email(self):
-        mail_template = self.env.ref('estate.offer_mail_template')
-        mail_template.send_mail(self.id, force_send = True)
+        for property in self:
+            if property.state == 'sold':
+                raise UserError("A sold property cannot be canceled.")
+            property.state = 'canceled'

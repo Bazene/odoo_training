@@ -1,13 +1,12 @@
 <odoo>
     <menuitem id = "root_level" name = "Real Estate">
         <menuitem id = "estate_item" name = "Advertisement">
-            <menuitem id = "properties_item" name = "Properties" action = "property_record" />
+            <menuitem id = "properties_item" name = "Properties" action = "test_record" />
             <menuitem id = "Property_offers" name = "Offers" action = "offer_record"/>
         </menuitem>
     </menuitem>  
 
     <menuitem id = "settings_item" name = "Settings" parent = "root_level"/>
     <menuitem id = "s_properties_item" name = "Property Type" parent = "settings_item" action = "action_type"/>
-    <menuitem id = "s_properties_tag" name = "Property Tags" parent = "settings_item" action = "tag_record" groups = "estate.group_property_manager"/>
-    <menuitem id = "menu_test_client_action" name = "Test Client Action" parent = "settings_item" action = "estate.action_custom_client_action"/>
+    <menuitem id = "s_properties_tag" name = "Property Tags" parent = "settings_item" action = "tag_record"/>
 </odoo>

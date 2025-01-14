@@ -21,8 +21,7 @@ class PropertyOffer(models.Model):
     )
     validity = fields.Integer(default = 7)
     date_deadline = fields.Date(compute = "_compute_date_deadline", inverse = "_inverse_date_deadline")
-    partner_email = fields.Char(string = "Customer Email", related = "partner_id.email")
-
+    
     # Many2one and One2many fields
     partner_id = fields.Many2one("res.partner", required = True, string = "Partner")
     property_id = fields.Many2one("estate.property", required = True, string = "Property")
@@ -46,7 +45,7 @@ class PropertyOffer(models.Model):
         for property in self:
             if property.create_date and property.date_deadline:
                 property.validity = (property.date_deadline - property.create_date.date()).days
-
+    
     # Public methods
     # methods for accepted and refuse offers buttons
     def action_accept(self):  
@@ -58,7 +57,7 @@ class PropertyOffer(models.Model):
         self.property_id.selling_price = self.price
         self.property_id.buyer_id = self.partner_id
     
-    def action_refused(self):
+    def action_Refused(self):
         self.ensure_one()
         if self.property_id.selling_price == self.price :
             self.property_id.selling_price = 0.00
@@ -76,12 +75,6 @@ class PropertyOffer(models.Model):
             ('price', '>', offer_price)
         ])
 
-        # existing_offers = property_id.offer_ids.filtered(lambda o: o.price > offer_price)
-        # Fetch the property record if property_id is an integer
-        # property_record = self.env['estate.property'].browse(property_id) if isinstance(property_id, int) else property_id
-        # existing_offers = property_record.offer_ids.filtered(lambda o: o.price > offer_price)
-
-        # print(f"f +++++++++++++++++ {property_id.offer_ids.filtered(lambda o: o.price > offer_price)}")
         if existing_offers:
             raise UserError(_('Cannot create this offer. The amount must be higher than existing offers.'))
 
@@ -92,17 +85,3 @@ class PropertyOffer(models.Model):
         
         # Call the super method to create the offer
         return super(PropertyOffer, self).create(vals)
-
-    # Server action function
-    def extend_offer_deadline(self):
-        activ_ids = self._context.get('active_ids', [])
-        if activ_ids:
-            offer_ids = self.env['estate.property.offer'].browse(activ_ids)
-            for offer in offer_ids:
-                offer.validity = 10
-
-    # Automated action function
-    def _extend_offer_deadline(self):
-        offer_ids = self.env['estate.property.offer'].search([])
-        for offer in offer_ids:
-            offer.validity = offer.validity + 1
