@@ -123,3 +123,7 @@ class RealEstate(models.Model):
             if property.state == 'sold':
                 raise UserError("A sold property cannot be canceled.")
             property.state = 'canceled'
+
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return 'Estate property - %s' % self.name
