@@ -22,6 +22,10 @@
         "views/estate_property_type_views.xml",
         "views/estate_property_views.xml",
         "views/estate_menu.xml",
+
+        # REPORT
+        "report/report_template.xml",
+        "report/property_report.xml",
     ],
     "demo":[
         "demo/demo.xml"
